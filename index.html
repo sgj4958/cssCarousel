@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+    body {
+        border: 1px solid #ddd;
+        margin: 5px;
+        overflow: hidden;
+        width: calc(100% - 10px);
+        height: calc(100vh - 10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+    }
+
+    /* //// */
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		list-style: none;
+	}
+
+	.carousel {
+		--kakao: #FEE500;
+		--grainy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+
+		container: container / inline-size;
+
+		width: calc(100% - 50px * 2);
+		aspect-ratio: 7/3;
+		overflow: scroll hidden;
+		display: flex;
+		position: relative;
+		gap: 5px;
+
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+
+		anchor-name: --carousel;
+
+		scroll-marker-group: after;
+
+		mask: linear-gradient(to right,
+			#0000 8px,
+			#ffff 10% 90%,
+			#0000 calc(100% - 8px)
+		);
+
+		scrollbar-gutter: stable both-edges;
+		overscroll-behavior: none;
+		scrollbar-width: thin;
+		scrollbar-color: color-mix(in srgb, var(--kakao) 70%, transparent) transparent;
+
+		&::scroll-button(left) {
+			content: "\21E0";
+			position-area: left;
+		}
+		&::scroll-button(right) {
+			content: "\21E2";
+			position-area: right;
+		}
+		&::scroll-button(*) {
+			position: absolute;
+			border: none;
+			background: none;
+			cursor: pointer;
+			border-radius: 100%;
+			margin: 5px;
+			border: 1px solid #eee;
+			width: 40px;
+			aspect-ratio: 1;
+			font-size: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 10;
+			position-anchor: --carousel;
+			transition: .1s;
+		}
+		&::scroll-button(*):disabled {
+			display: none;
+		}
+		&::scroll-button(*):hover, &::scroll-button(*):focus {
+			text-decoration: underline;
+			text-underline-offset: -6px;
+			text-decoration-color: #555;
+			text-decoration-style: solid;
+			text-decoration-skip-ink: none;
+			text-decoration-thickness: 1px;
+		}
+
+		&::scroll-marker-group {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+			margin-top: 5px;
+		}
+
+		li {
+			flex-basis: 80cqi;
+			flex-shrink: 0;
+			scroll-snap-align: center;
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			height: calc(100% - 1px);
+
+			text-align: center;
+			user-select: none;
+			transform-style: preserve-3d;
+
+			&::scroll-marker {
+				content: "";
+				border: 1px solid #ccc;
+				border-radius: 100%;
+				width: 10px;
+				height: 10px;
+				flex-shrink: 0;
+				transition: .1s;
+			}
+			&::scroll-marker:hover {
+				outline: 1px solid var(--kakao);
+				outline-offset: 3px;
+			}
+			&::scroll-marker:target-current {
+				background-color: var(--kakao);
+			}
+			:has(&::scroll-marker:target-current) {
+				border: 1px solid red;
+			}
+
+			animation: slide-in linear;
+			animation-timeline: view(x 20%);
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				-webkit-user-drag: none;
+			}
+		}
+
+		&::before, &::after {
+			content: "";
+			width: 100%;
+			height: 100%;
+			flex-shrink: 0;
+		}
+
+		div {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			backface-visibility: hidden;
+			border-radius: 5px;
+			overflow: hidden;
+			
+			&:first-child::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background-color: #fff;
+				background-image: var(--grainy);
+				opacity: 0.15;
+				z-index: -1;
+			}
+
+			&:last-of-type {
+				background: url(sample/단체.webp) center/cover;
+				transform: rotateY(180deg);
+			}
+		}
+
+	}
+
+	@keyframes slide-in {
+		30% {
+			transform: rotateY(+180deg);
+		}
+		50% {
+			transform: none;
+		}
+		70% {
+			transform: rotateY(-180deg);
+		}
+	}
+    </style>
+</head>
+
+<body>
+
+	<ul class="carousel">
+		<li>
+			<div><img src="sample/네오.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/라이언.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/무지.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/어피치.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/제이지.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/춘식이.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/콘.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/튜브.webp"></div>
+			<div></div>
+		</li>
+		<li>
+			<div><img src="sample/프로도.webp"></div>
+			<div></div>
+		</li>
+	</ul>
+
+</body>
+<script>
+</script>
+</html>
